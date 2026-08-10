@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Homelab Dashboard</title>
+  <style>
+    :root { --bg: #0f1419; --card: #1a2332; --text: #e7ecf3; --muted: #8b9bb4; --acc: #3d9cf0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    header { padding: 1.25rem 1.5rem; border-bottom: 1px solid #243044; }
+    h1 { margin: 0; font-size: 1.25rem; font-weight: 600; }
+    p { color: var(--muted); margin: 0.35rem 0 0; font-size: 0.9rem; }
+    main { padding: 1.5rem; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    a.card { display: block; padding: 1rem 1.1rem; background: var(--card); border-radius: 10px;
+      text-decoration: none; color: inherit; border: 1px solid #2a3a52; transition: border-color .15s; }
+    a.card:hover { border-color: var(--acc); }
+    a.card strong { display: block; margin-bottom: 0.35rem; }
+    a.card span { font-size: 0.85rem; color: var(--muted); }
+    footer { padding: 1rem 1.5rem; font-size: 0.8rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Homelab dashboard</h1>
+    <p>Scrubbed shell from <code>sentinel-install</code> · replace cards with your services</p>
+  </header>
+  <main>
+    <a class="card" href="/"><strong>Site home</strong><span>Public or LAN root</span></a>
+    <a class="card" href="http://127.0.0.1:8083" target="_blank" rel="noopener"><strong>Companion</strong><span>AI desk · :8083 (if local)</span></a>
+    <a class="card" href="http://127.0.0.1:8080" target="_blank" rel="noopener"><strong>Open WebUI</strong><span>Optional · :8080</span></a>
+    <a class="card" href="https://github.com/teamrustyonmars-byte/housecap" target="_blank" rel="noopener"><strong>HouseCap</strong><span>Free Linux screen record</span></a>
+  </main>
+  <footer>Edit this HTML or point deploy_src at your real static site. No secrets in this shell.</footer>
+</body>
+</html>

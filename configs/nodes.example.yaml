@@ -1,0 +1,55 @@
+# Copy to nodes.yaml and fill YOUR values.
+# Never commit nodes.yaml if it has real IPs.
+#
+# Placeholders only — scrubbed of any private house inventory.
+
+profile: minimal-web   # minimal-web | ai-desk | homelab-core
+
+# Optional human labels (not secrets)
+site_name: "My Homelab"
+domain: "example.com"          # optional public domain; leave blank for LAN-only
+
+nodes:
+  # --- used by minimal-web + homelab-core ---
+  web:
+    host: "192.168.1.10"       # CHANGE ME — Apache / static site / dashboard shell
+    user: "webadmin"           # SSH user (passwordless key preferred)
+    role: web-hub
+    paths:
+      site_root: "/var/www/html"
+      deploy_src: "./payloads/web-site"   # relative to sentinel-install after you add content
+
+  # --- used by ai-desk + homelab-core ---
+  ai:
+    host: "192.168.1.20"       # CHANGE ME — GPU or strong CPU box
+    user: "aiadmin"
+    role: ai-edge
+    ollama_port: 11434
+    companion_port: 8083
+    open_webui_port: 8080
+    # Set true only if NVIDIA container toolkit is installed
+    use_gpu: true
+
+  # --- used by homelab-core ---
+  infra:
+    host: "192.168.1.30"       # CHANGE ME — always-on small box
+    user: "infra"
+    role: infra-hub
+    monitor_port: 8085
+
+  # --- used by ai-desk (same machine as ai is fine) ---
+  desk:
+    host: "192.168.1.20"       # often same as ai, or a separate Mint desk
+    user: "desk"
+    role: desk
+    display: ":0"
+
+# Fleet apt (homelab-core): list every Linux host you want updated
+fleet:
+  hosts:
+    - host: "192.168.1.10"
+      user: "webadmin"
+    - host: "192.168.1.20"
+      user: "aiadmin"
+    - host: "192.168.1.30"
+      user: "infra"
