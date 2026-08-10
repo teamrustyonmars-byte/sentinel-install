@@ -14,18 +14,25 @@ else
   echo "OK: no configs/secrets.env"
 fi
 
-# Dangerous secret patterns (not placeholders) — grep -R portable
-if grep -RInE --exclude-dir=.git \
-  'ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9]{20,}|CF_API_TOKEN=.+|sudo_password[[:space:]]*[:=]|SSH_PASS=.+' \
-  . 2>/dev/null | head -20 | grep -q .; then
-  grep -RInE --exclude-dir=.git \
-    'ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9]{20,}|CF_API_TOKEN=.+|sudo_password[[:space:]]*[:=]|SSH_PASS=.+' \
-    . 2>/dev/null | head -20 || true
+# Dangerous secret patterns (not placeholders).
+# Build regex in pieces so this script does not self-match.
+_pat1='ghp_''[A-Za-z0-9]{20,}'
+_pat2='github_pat_''[A-Za-z0-9_]{20,}'
+_pat3='sk-''[A-Za-z0-9]{20,}'
+_pat4='CF_API_TOKEN=.+'
+_pat5='sudo_password[[:space:]]*[:=]'
+_pat6='SSH_PASS=.+'
+_PAT="${_pat1}|${_pat2}|${_pat3}|${_pat4}|${_pat5}|${_pat6}"
+# Exclude self + .git (false positives from the checker source)
+_hits="$(grep -RInE --exclude-dir=.git --exclude='scrub-check.sh' "$_PAT" . 2>/dev/null | head -20 || true)"
+if [[ -n "$_hits" ]]; then
+  echo "$_hits"
   echo "FAIL: token/password-like strings" >&2
   fail=1
 else
   echo "OK: no token/password-like strings"
 fi
+unset _pat1 _pat2 _pat3 _pat4 _pat5 _pat6 _PAT _hits
 
 # Discourage shipping a filled nodes.yaml (committed)
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
