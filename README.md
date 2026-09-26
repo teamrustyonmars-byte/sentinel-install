@@ -11,7 +11,7 @@ git clone https://github.com/teamrustyonmars-byte/sentinel-install.git
 cd sentinel-install
 ```
 
-## Profiles (v0.1)
+## Profiles (v0.2)
 
 | Profile | What you get | Boxes |
 |---------|----------------|-------|
@@ -21,13 +21,15 @@ cd sentinel-install
 
 More profiles may come later. Start with these three.
 
+How the seats fit together: [ARCHITECTURE.md](ARCHITECTURE.md). Documentation addresses are `192.0.2.0/24` (TEST-NET-1). They are not a real LAN.
+
 ## Security model (scrubbed by design)
 
 | Allowed in git | Never commit |
 |----------------|--------------|
 | `nodes.example.yaml` placeholders | Real `nodes.yaml` |
 | `secrets.example.env` empty keys | Real passwords / tokens |
-| Example `192.168.1.x` docs | Your live inventory |
+| Example `192.0.2.0/24` docs (TEST-NET-1) | Your live inventory |
 | SSH **keys** recommended | Hard-coded `sudo` passwords |
 
 Remote installs use `ssh` / `rsync`. Prefer **SSH keys** + passwordless `sudo` for the deploy user, or enter sudo on the box yourself.
