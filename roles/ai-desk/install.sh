@@ -63,11 +63,12 @@ scp_cmd "$AI_USER" "$AI_HOST" \
 ssh_cmd "$AI_USER" "$AI_HOST" "mv /tmp/COMPANION.md \$HOME/sentinel-ai-desk/COMPANION.md"
 
 # --- HouseCap (free Linux recorder) ---
-if [[ -d /home/sentinel/ai-share/housecap ]]; then
+HOUSECAP_SRC="${HOUSECAP_SRC:-}"   # optional local HouseCap checkout (set in secrets.env)
+if [[ -n "$HOUSECAP_SRC" && -d "$HOUSECAP_SRC" ]]; then
   info "syncing HouseCap sources"
   rsync -az -e "ssh -o StrictHostKeyChecking=accept-new" \
     --exclude .git \
-    /home/sentinel/ai-share/housecap/ \
+    "${HOUSECAP_SRC%/}/" \
     "${AI_USER}@${AI_HOST}:/tmp/housecap/"
   ssh_cmd "$AI_USER" "$AI_HOST" bash -s <<'REMOTE'
 set -euo pipefail

@@ -12,7 +12,7 @@ domain: "example.com"          # optional public domain; leave blank for LAN-onl
 nodes:
   # --- used by minimal-web + homelab-core ---
   web:
-    host: "192.168.1.10"       # CHANGE ME — Apache / static site / dashboard shell
+    host: "192.0.2.10"         # CHANGE ME — documentation address only (TEST-NET-1)
     user: "webadmin"           # SSH user (passwordless key preferred)
     role: web-hub
     paths:
@@ -21,7 +21,7 @@ nodes:
 
   # --- used by ai-desk + homelab-core ---
   ai:
-    host: "192.168.1.20"       # CHANGE ME — GPU or strong CPU box
+    host: "192.0.2.20"         # CHANGE ME — documentation address only
     user: "aiadmin"
     role: ai-edge
     ollama_port: 11434
@@ -32,14 +32,14 @@ nodes:
 
   # --- used by homelab-core ---
   infra:
-    host: "192.168.1.30"       # CHANGE ME — always-on small box
+    host: "192.0.2.30"         # CHANGE ME — documentation address only
     user: "infra"
     role: infra-hub
     monitor_port: 8085
 
   # --- used by ai-desk (same machine as ai is fine) ---
   desk:
-    host: "192.168.1.20"       # often same as ai, or a separate Mint desk
+    host: "192.0.2.20"         # often same as ai, or a separate desk
     user: "desk"
     role: desk
     display: ":0"
@@ -47,9 +47,9 @@ nodes:
 # Fleet apt (homelab-core): list every Linux host you want updated
 fleet:
   hosts:
-    - host: "192.168.1.10"
+    - host: "192.0.2.10"
       user: "webadmin"
-    - host: "192.168.1.20"
+    - host: "192.0.2.20"
       user: "aiadmin"
-    - host: "192.168.1.30"
+    - host: "192.0.2.30"
       user: "infra"
